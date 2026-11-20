@@ -35,6 +35,7 @@
             this.btnIngresar = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnRegistrar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -72,7 +73,7 @@
             // 
             // btnIngresar
             // 
-            this.btnIngresar.Location = new System.Drawing.Point(346, 295);
+            this.btnIngresar.Location = new System.Drawing.Point(210, 295);
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(85, 29);
             this.btnIngresar.TabIndex = 4;
@@ -82,7 +83,7 @@
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(204, 295);
+            this.btnSalir.Location = new System.Drawing.Point(539, 396);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(85, 29);
             this.btnSalir.TabIndex = 5;
@@ -100,11 +101,22 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "🔒Inicio de Sesión - Mesa de Parte";
             // 
+            // btnRegistrar
+            // 
+            this.btnRegistrar.Location = new System.Drawing.Point(351, 295);
+            this.btnRegistrar.Name = "btnRegistrar";
+            this.btnRegistrar.Size = new System.Drawing.Size(85, 29);
+            this.btnRegistrar.TabIndex = 7;
+            this.btnRegistrar.Text = "Registrar";
+            this.btnRegistrar.UseVisualStyleBackColor = true;
+            this.btnRegistrar.Click += new System.EventHandler(this.btnRegistrar_Click);
+            // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(652, 450);
+            this.Controls.Add(this.btnRegistrar);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnIngresar);
@@ -128,5 +140,6 @@
         private System.Windows.Forms.Button btnIngresar;
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnRegistrar;
     }
 }
