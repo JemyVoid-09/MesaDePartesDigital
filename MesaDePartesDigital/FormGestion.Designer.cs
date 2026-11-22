@@ -58,7 +58,7 @@
             // 
             // btnMostrarTodos
             // 
-            this.btnMostrarTodos.Location = new System.Drawing.Point(289, 189);
+            this.btnMostrarTodos.Location = new System.Drawing.Point(282, 176);
             this.btnMostrarTodos.Name = "btnMostrarTodos";
             this.btnMostrarTodos.Size = new System.Drawing.Size(75, 23);
             this.btnMostrarTodos.TabIndex = 2;
@@ -68,7 +68,7 @@
             // 
             // btnOrdenar
             // 
-            this.btnOrdenar.Location = new System.Drawing.Point(423, 189);
+            this.btnOrdenar.Location = new System.Drawing.Point(416, 176);
             this.btnOrdenar.Name = "btnOrdenar";
             this.btnOrdenar.Size = new System.Drawing.Size(75, 23);
             this.btnOrdenar.TabIndex = 3;
@@ -80,7 +80,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(30, 26);
+            this.label1.Location = new System.Drawing.Point(79, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(746, 31);
             this.label1.TabIndex = 4;
@@ -89,16 +89,16 @@
             // dgvExpedientes
             // 
             this.dgvExpedientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvExpedientes.Location = new System.Drawing.Point(57, 227);
+            this.dgvExpedientes.Location = new System.Drawing.Point(42, 233);
             this.dgvExpedientes.Name = "dgvExpedientes";
             this.dgvExpedientes.RowHeadersWidth = 51;
             this.dgvExpedientes.RowTemplate.Height = 24;
-            this.dgvExpedientes.Size = new System.Drawing.Size(695, 182);
+            this.dgvExpedientes.Size = new System.Drawing.Size(832, 182);
             this.dgvExpedientes.TabIndex = 5;
             // 
             // btnVolver
             // 
-            this.btnVolver.Location = new System.Drawing.Point(701, 415);
+            this.btnVolver.Location = new System.Drawing.Point(547, 176);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(75, 23);
             this.btnVolver.TabIndex = 6;
@@ -119,7 +119,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(921, 450);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvExpedientes);

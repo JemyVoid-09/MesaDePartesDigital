@@ -33,13 +33,14 @@ namespace MesaDePartesDigital
             this.btnGestionar = new System.Windows.Forms.Button();
             this.btnCerrarSesion = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnGestionUsuarios = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnRegistrar
             // 
-            this.btnRegistrar.Location = new System.Drawing.Point(221, 126);
+            this.btnRegistrar.Location = new System.Drawing.Point(330, 102);
             this.btnRegistrar.Name = "btnRegistrar";
-            this.btnRegistrar.Size = new System.Drawing.Size(205, 40);
+            this.btnRegistrar.Size = new System.Drawing.Size(233, 47);
             this.btnRegistrar.TabIndex = 0;
             this.btnRegistrar.Text = "Registrar Expediente";
             this.btnRegistrar.UseVisualStyleBackColor = true;
@@ -47,9 +48,9 @@ namespace MesaDePartesDigital
             // 
             // btnGestionar
             // 
-            this.btnGestionar.Location = new System.Drawing.Point(221, 210);
+            this.btnGestionar.Location = new System.Drawing.Point(330, 187);
             this.btnGestionar.Name = "btnGestionar";
-            this.btnGestionar.Size = new System.Drawing.Size(205, 41);
+            this.btnGestionar.Size = new System.Drawing.Size(233, 47);
             this.btnGestionar.TabIndex = 1;
             this.btnGestionar.Text = "Gestionar y Buscar";
             this.btnGestionar.UseVisualStyleBackColor = true;
@@ -57,9 +58,9 @@ namespace MesaDePartesDigital
             // 
             // btnCerrarSesion
             // 
-            this.btnCerrarSesion.Location = new System.Drawing.Point(221, 297);
+            this.btnCerrarSesion.Location = new System.Drawing.Point(330, 356);
             this.btnCerrarSesion.Name = "btnCerrarSesion";
-            this.btnCerrarSesion.Size = new System.Drawing.Size(205, 40);
+            this.btnCerrarSesion.Size = new System.Drawing.Size(233, 47);
             this.btnCerrarSesion.TabIndex = 2;
             this.btnCerrarSesion.Text = "Cerrar Sesión";
             this.btnCerrarSesion.UseVisualStyleBackColor = true;
@@ -69,23 +70,35 @@ namespace MesaDePartesDigital
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(73, 40);
+            this.label1.Location = new System.Drawing.Point(196, 40);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(512, 31);
             this.label1.TabIndex = 3;
             this.label1.Text = "🏛️ Mesa de Partes Digital - Menú Principal";
             // 
+            // btnGestionUsuarios
+            // 
+            this.btnGestionUsuarios.Location = new System.Drawing.Point(330, 269);
+            this.btnGestionUsuarios.Name = "btnGestionUsuarios";
+            this.btnGestionUsuarios.Size = new System.Drawing.Size(233, 47);
+            this.btnGestionUsuarios.TabIndex = 4;
+            this.btnGestionUsuarios.Text = "Gestión de Usuarios";
+            this.btnGestionUsuarios.UseVisualStyleBackColor = true;
+            this.btnGestionUsuarios.Click += new System.EventHandler(this.btnGestionUsuarios_Click);
+            // 
             // FormPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 450);
+            this.ClientSize = new System.Drawing.Size(905, 450);
+            this.Controls.Add(this.btnGestionUsuarios);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCerrarSesion);
             this.Controls.Add(this.btnGestionar);
             this.Controls.Add(this.btnRegistrar);
             this.Name = "FormPrincipal";
             this.Text = "FormPrincipal";
+            this.Load += new System.EventHandler(this.FormPrincipal_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -97,5 +110,6 @@ namespace MesaDePartesDigital
         private System.Windows.Forms.Button btnGestionar;
         private System.Windows.Forms.Button btnCerrarSesion;
         private System.Windows.Forms.Label label1;
+        private Button btnGestionUsuarios;
     }
 }

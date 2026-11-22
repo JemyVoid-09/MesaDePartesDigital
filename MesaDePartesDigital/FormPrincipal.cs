@@ -5,6 +5,18 @@ namespace MesaDePartesDigital
 {
     public partial class FormPrincipal : Form
     {
+        private string rolActual;
+        public FormPrincipal(string rol)
+        {
+            InitializeComponent();
+            rolActual = rol;
+
+            
+            if (rolActual == "Trabajador")
+            {
+                btnGestionUsuarios.Visible = false;
+            }
+        }
         public FormPrincipal()
         {
             InitializeComponent();
@@ -26,6 +38,17 @@ namespace MesaDePartesDigital
             FormLogin login = new FormLogin();
             login.Show();
             this.Close();
+        }
+
+        private void btnGestionUsuarios_Click(object sender, EventArgs e)
+        {
+            FormGestionUsuarios frm = new FormGestionUsuarios();
+            frm.ShowDialog();
+        }
+
+        private void FormPrincipal_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

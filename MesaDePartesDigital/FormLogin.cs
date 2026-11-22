@@ -15,41 +15,53 @@ namespace MesaDePartesDigital
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            string usuario = txtUsuario.Text.Trim();
-            string clave = txtClave.Text.Trim();
+            string usuarioIngresado = txtUsuario.Text.Trim();
+            string claveIngresada = txtClave.Text.Trim();
             bool accesoConcedido = false;
+            string rolUsuario = "";
 
-            // 1. Mantiene tu usuario administrador original
-            if (usuario == "admin" && clave == "12345")
+            
+            if (usuarioIngresado == "admin" && claveIngresada == "12345")
             {
                 accesoConcedido = true;
+                rolUsuario = "Administrador";
             }
-            // 2. Busca si el usuario se registró en usuarios.txt
-            else if (File.Exists(rutaUsuarios))
+            else if (File.Exists("usuarios.txt"))
             {
-                string[] lineas = File.ReadAllLines(rutaUsuarios);
+                string[] lineas = File.ReadAllLines("usuarios.txt");
                 foreach (string linea in lineas)
                 {
                     string[] datos = linea.Split('|');
-                    if (datos.Length == 2 && datos[0] == usuario && datos[1] == clave)
+                    
+                    if (datos.Length == 4)
                     {
-                        accesoConcedido = true;
-                        break;
+                        string usuarioFile = datos[0].Trim();
+                        string claveFile = datos[1].Trim();
+                        string rolFile = datos[2].Trim();
+
+                        if (usuarioFile == usuarioIngresado && claveFile == claveIngresada)
+                        {
+                            accesoConcedido = true;
+                            rolUsuario = rolFile;
+                            break;
+                        }
                     }
                 }
             }
 
             if (accesoConcedido)
             {
-                MessageBox.Show("¡Bienvenido al Sistema de Mesa de Partes!", "Acceso Concedido", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                FormPrincipal principal = new FormPrincipal();
+                MessageBox.Show($"¡Bienvenido, {usuarioIngresado}!", "Acceso Concedido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                FormPrincipal principal = new FormPrincipal(rolUsuario);
                 principal.Show();
                 this.Hide();
+
             }
             else
             {
                 MessageBox.Show("Usuario o contraseña incorrectos.", "Error de Autenticación", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -84,6 +96,11 @@ namespace MesaDePartesDigital
 
             File.AppendAllText(rutaUsuarios, usuario + "|" + clave + Environment.NewLine);
             MessageBox.Show("¡Usuario registrado con éxito! Ahora dale clic a Ingresar.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
