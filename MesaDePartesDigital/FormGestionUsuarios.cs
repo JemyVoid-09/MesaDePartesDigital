@@ -1,12 +1,12 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
+using System.IO;
 
 namespace MesaDePartesDigital
 {
     public partial class FormGestionUsuarios : Form
     {
-        private string rutaUsuarios = "usuarios.txt";
+        private string rutaUsuarios = "usuarios.dat"; 
 
         public FormGestionUsuarios()
         {
@@ -14,7 +14,6 @@ namespace MesaDePartesDigital
             CargarUsuarios();
         }
 
-        
         private void CargarUsuarios()
         {
             dgvUsuarios.Rows.Clear();
@@ -25,95 +24,74 @@ namespace MesaDePartesDigital
                 dgvUsuarios.Columns.Add("colRol", "Rol");
                 dgvUsuarios.Columns.Add("colCorreo", "Correo");
             }
-            if (System.IO.File.Exists("usuarios.txt"))
+
+            if (File.Exists(rutaUsuarios))
             {
-                string[] lineas = System.IO.File.ReadAllLines("usuarios.txt");
-                foreach (string linea in lineas)
+                BinaryReader br = null;
+                try
                 {
-                    string[] datos = linea.Split('|');
-                    if (datos.Length == 4)
+                    br = new BinaryReader(new FileStream(rutaUsuarios, FileMode.Open, FileAccess.Read));
+                    while (br.BaseStream.Position != br.BaseStream.Length)
                     {
-                        dgvUsuarios.Rows.Add(datos[0], datos[1], datos[2], datos[3]);
+                        string usuario = br.ReadString();
+                        string clave = br.ReadString();
+                        string rol = br.ReadString();
+                        string correo = br.ReadString();
+
+                        dgvUsuarios.Rows.Add(usuario, clave, rol, correo);
                     }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al leer el archivo binario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (br != null) br.Close();
                 }
             }
         }
 
-        
-        private void btnRegistrar_Click(object sender, EventArgs e)
+        private void btnRegistrar_Click_1(object sender, EventArgs e)
         {
-            string usuario = txtUsuario.Text.Trim();
-            string clave = txtClave.Text.Trim();
-
-            if (usuario == "" || clave == "")
+            if (string.IsNullOrWhiteSpace(txtUsuario.Text) ||
+                string.IsNullOrWhiteSpace(txtClave.Text) ||
+                comboBox1.SelectedItem == null ||
+                string.IsNullOrWhiteSpace(txtCorreo.Text))
             {
-                MessageBox.Show("Por favor completa todos los campos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, complete todos los campos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            
-            using (StreamWriter sw = File.AppendText(rutaUsuarios))
+            string usuario = txtUsuario.Text.Trim();
+            string contrasena = txtClave.Text.Trim();
+            string rol = comboBox1.SelectedItem.ToString();
+            string correo = txtCorreo.Text.Trim();
+
+            try
             {
-                sw.WriteLine($"{usuario},{clave}");
-            }
-
-            MessageBox.Show("Usuario registrado con éxito.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            txtUsuario.Clear();
-            txtClave.Clear();
-            CargarUsuarios();
-        }
-
-        
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            if (dgvUsuarios.CurrentRow != null)
-            {
-                string usuarioSeleccionado = dgvUsuarios.CurrentRow.Cells["Usuario"].Value.ToString();
-
                 
-                if (usuarioSeleccionado.ToLower() == "admin")
+                using (BinaryWriter bw = new BinaryWriter(new FileStream(rutaUsuarios, FileMode.Append, FileAccess.Write)))
                 {
-                    MessageBox.Show("¡Acción denegada! El usuario administrador principal no se puede eliminar.", "Seguridad", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    bw.Write(usuario);
+                    bw.Write(contrasena);
+                    bw.Write(rol);
+                    bw.Write(correo);
                 }
 
-                
-                DialogResult resultado = MessageBox.Show($"¿Deseas eliminar al usuario '{usuarioSeleccionado}'?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (resultado == DialogResult.Yes)
-                {
-                    dgvUsuarios.Rows.Remove(dgvUsuarios.CurrentRow);
+                MessageBox.Show("¡Usuario registrado exitosamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    
-                    using (StreamWriter sw = new StreamWriter(rutaUsuarios, false))
-                    {
-                        foreach (DataGridViewRow row in dgvUsuarios.Rows)
-                        {
-                            if (row.Cells["Usuario"].Value != null)
-                            {
-                                sw.WriteLine($"{row.Cells["Usuario"].Value},{row.Cells["Clave"].Value}");
-                            }
-                        }
-                    }
+                txtUsuario.Clear();
+                txtClave.Clear();
+                comboBox1.SelectedIndex = -1;
+                txtCorreo.Clear();
 
-                    MessageBox.Show("Usuario eliminado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                CargarUsuarios();
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Selecciona un usuario de la tabla para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ocurrió un error al guardar el usuario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-        private void label1_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void FormGestionUsuarios_Load(object sender, EventArgs e)
-        {
-            CargarUsuarios();
         }
 
         private void btnEliminar_Click_1(object sender, EventArgs e)
@@ -133,22 +111,33 @@ namespace MesaDePartesDigital
                 {
                     dgvUsuarios.Rows.Remove(dgvUsuarios.CurrentRow);
 
-                    using (StreamWriter sw = new StreamWriter(rutaUsuarios, false))
+                    
+                    try
                     {
-                        foreach (DataGridViewRow row in dgvUsuarios.Rows)
+                        using (BinaryWriter bw = new BinaryWriter(new FileStream(rutaUsuarios, FileMode.Create, FileAccess.Write)))
                         {
-                            if (!row.IsNewRow && row.Cells[0].Value != null)
+                            foreach (DataGridViewRow row in dgvUsuarios.Rows)
                             {
-                                string user = row.Cells[0].Value.ToString();
-                                string pass = row.Cells[1].Value?.ToString() ?? "";
-                                string rol = row.Cells[2].Value?.ToString() ?? "";
-                                string correo = row.Cells[3].Value?.ToString() ?? "";
+                                if (!row.IsNewRow && row.Cells[0].Value != null)
+                                {
+                                    string user = row.Cells[0].Value.ToString();
+                                    string pass = row.Cells[1].Value?.ToString() ?? "";
+                                    string rol = row.Cells[2].Value?.ToString() ?? "";
+                                    string correo = row.Cells[3].Value?.ToString() ?? "";
 
-                                sw.WriteLine($"{user}|{pass}|{rol}|{correo}");
+                                    bw.Write(user);
+                                    bw.Write(pass);
+                                    bw.Write(rol);
+                                    bw.Write(correo);
+                                }
                             }
                         }
+                        MessageBox.Show("Usuario eliminado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    MessageBox.Show("Usuario eliminado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al actualizar el archivo: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             else
@@ -162,44 +151,15 @@ namespace MesaDePartesDigital
             this.Close();
         }
 
-        private void btnRegistrar_Click_1(object sender, EventArgs e)
+        private void FormGestionUsuarios_Load(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtUsuario.Text) ||
-        string.IsNullOrWhiteSpace(txtClave.Text) ||
-        comboBox1.SelectedItem == null ||
-        string.IsNullOrWhiteSpace(txtCorreo.Text))
-            {
-                MessageBox.Show("Por favor, complete todos los campos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            
-            string usuario = txtUsuario.Text.Trim();
-            string contrasena = txtClave.Text.Trim();
-            string rol = comboBox1.SelectedItem.ToString();
-            string correo = txtCorreo.Text.Trim();
-
-            
-            string nuevaLinea = $"{usuario}|{contrasena}|{rol}|{correo}";
-
-            try
-            {
-               
-                System.IO.File.AppendAllText("usuarios.txt", nuevaLinea + Environment.NewLine);
-
-                MessageBox.Show("¡Usuario registrado exitosamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                txtUsuario.Clear();
-                txtClave.Clear();
-                comboBox1.SelectedIndex = -1;
-                txtCorreo.Clear();
-
-                CargarUsuarios();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ocurrió un error al guardar el usuario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            CargarUsuarios();
         }
+
+        
+        private void btnRegistrar_Click(object sender, EventArgs e) { }
+        private void btnEliminar_Click(object sender, EventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) { }
+        private void label2_Click(object sender, EventArgs e) { }
     }
 }

@@ -1,14 +1,18 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MesaDePartesDigital
 {
     public partial class FormRegistro : Form
     {
+        private string rutaExpedientes = "expedientes.dat"; // Archivo binario directo
+
         public FormRegistro()
         {
             InitializeComponent();
         }
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtCodigo.Text) ||
@@ -27,19 +31,37 @@ namespace MesaDePartesDigital
                 return;
             }
 
-            Expediente nuevoExp = new Expediente
-            {
-                Codigo = txtCodigo.Text,
-                DNI = txtDNI.Text,
-                Nombres = txtNombres.Text,
-                TipoDoc = cboTipoDoc.Text,
-                Asunto = txtAsunto.Text,
-                Fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm")
-            };
+            // Capturamos los datos en variables simples (sin POO ni clases externas)
+            string codigo = txtCodigo.Text.Trim();
+            string dni = txtDNI.Text.Trim();
+            string nombres = txtNombres.Text.Trim();
+            string tipoDoc = cboTipoDoc.Text.Trim();
+            string asunto = txtAsunto.Text.Trim();
+            string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
 
-            Expediente.GuardarArchivo(nuevoExp);
-            MessageBox.Show("¡Expediente registrado con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            LimpiarCampos();
+            // Guardamos directamente en el archivo binario usando BinaryWriter
+            BinaryWriter bw = null;
+            try
+            {
+                bw = new BinaryWriter(new FileStream(rutaExpedientes, FileMode.Append, FileAccess.Write));
+                bw.Write(codigo);
+                bw.Write(dni);
+                bw.Write(nombres);
+                bw.Write(tipoDoc);
+                bw.Write(asunto);
+                bw.Write(fecha);
+
+                MessageBox.Show("¡Expediente registrado con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LimpiarCampos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar el expediente: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (bw != null) bw.Close();
+            }
         }
 
         private void LimpiarCampos()
@@ -58,12 +80,10 @@ namespace MesaDePartesDigital
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void txtDNI_TextChanged(object sender, EventArgs e)
         {
-
         }
     }
 }

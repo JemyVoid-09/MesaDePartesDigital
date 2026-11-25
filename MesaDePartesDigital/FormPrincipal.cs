@@ -6,6 +6,7 @@ namespace MesaDePartesDigital
     public partial class FormPrincipal : Form
     {
         private string rolActual;
+
         public FormPrincipal(string rol)
         {
             InitializeComponent();
@@ -17,10 +18,12 @@ namespace MesaDePartesDigital
                 btnGestionUsuarios.Visible = false;
             }
         }
+
         public FormPrincipal()
         {
             InitializeComponent();
         }
+
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
             FormRegistro reg = new FormRegistro();

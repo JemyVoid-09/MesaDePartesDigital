@@ -71,13 +71,12 @@
             this.cboTipoDoc.DropDownWidth = 350;
             this.cboTipoDoc.FormattingEnabled = true;
             this.cboTipoDoc.Items.AddRange(new object[] {
-            "DNI (Documento Nacional de Identidad)",
-            "RUC (Registro Único de Contribuyentes)",
-            "Carnet de Extranjeria (Para ciudadanos extranjeros residentes)",
-            "Pasaporte (Documento de identificación internacional)",
-            "Oficio (Documento oficial enviado entre instituciones)",
-            "Carta (Correspondencia general enviada por un ciudadano o entidad)",
-            "Solicitud (El trámite o petición formal que está ingresando el usuario)"});
+            "Solicitud de Historia Clínica",
+            "Descanso Médico / Certificado de Salud",
+            "Orden de Laboratorio / Exámenes",
+            "Carta de Garantía / Seguro (EPS)",
+            "Reclamo / Libro de Reclamaciones",
+            "Oficio / Convenio Institucional"});
             this.cboTipoDoc.Location = new System.Drawing.Point(433, 240);
             this.cboTipoDoc.Name = "cboTipoDoc";
             this.cboTipoDoc.Size = new System.Drawing.Size(141, 24);

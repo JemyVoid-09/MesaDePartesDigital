@@ -41,14 +41,15 @@
             // 
             // txtBuscarDNI
             // 
-            this.txtBuscarDNI.Location = new System.Drawing.Point(332, 114);
+            this.txtBuscarDNI.Location = new System.Drawing.Point(460, 117);
             this.txtBuscarDNI.Name = "txtBuscarDNI";
             this.txtBuscarDNI.Size = new System.Drawing.Size(110, 22);
             this.txtBuscarDNI.TabIndex = 0;
+            this.txtBuscarDNI.TextChanged += new System.EventHandler(this.txtBuscarDNI_TextChanged);
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(480, 110);
+            this.btnBuscar.Location = new System.Drawing.Point(606, 113);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(118, 31);
             this.btnBuscar.TabIndex = 1;
@@ -58,7 +59,7 @@
             // 
             // btnMostrarTodos
             // 
-            this.btnMostrarTodos.Location = new System.Drawing.Point(282, 176);
+            this.btnMostrarTodos.Location = new System.Drawing.Point(348, 176);
             this.btnMostrarTodos.Name = "btnMostrarTodos";
             this.btnMostrarTodos.Size = new System.Drawing.Size(75, 23);
             this.btnMostrarTodos.TabIndex = 2;
@@ -68,7 +69,7 @@
             // 
             // btnOrdenar
             // 
-            this.btnOrdenar.Location = new System.Drawing.Point(416, 176);
+            this.btnOrdenar.Location = new System.Drawing.Point(460, 176);
             this.btnOrdenar.Name = "btnOrdenar";
             this.btnOrdenar.Size = new System.Drawing.Size(75, 23);
             this.btnOrdenar.TabIndex = 3;
@@ -80,7 +81,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(79, 30);
+            this.label1.Location = new System.Drawing.Point(129, 33);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(746, 31);
             this.label1.TabIndex = 4;
@@ -89,16 +90,16 @@
             // dgvExpedientes
             // 
             this.dgvExpedientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvExpedientes.Location = new System.Drawing.Point(42, 233);
+            this.dgvExpedientes.Location = new System.Drawing.Point(34, 240);
             this.dgvExpedientes.Name = "dgvExpedientes";
             this.dgvExpedientes.RowHeadersWidth = 51;
             this.dgvExpedientes.RowTemplate.Height = 24;
-            this.dgvExpedientes.Size = new System.Drawing.Size(832, 182);
+            this.dgvExpedientes.Size = new System.Drawing.Size(955, 182);
             this.dgvExpedientes.TabIndex = 5;
             // 
             // btnVolver
             // 
-            this.btnVolver.Location = new System.Drawing.Point(547, 176);
+            this.btnVolver.Location = new System.Drawing.Point(591, 176);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(75, 23);
             this.btnVolver.TabIndex = 6;
@@ -109,9 +110,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(132, 117);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(225, 117);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(155, 16);
+            this.label2.Size = new System.Drawing.Size(198, 20);
             this.label2.TabIndex = 7;
             this.label2.Text = "Buscar por DNI / Codigo:";
             // 
@@ -119,7 +121,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(921, 450);
+            this.ClientSize = new System.Drawing.Size(1022, 450);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvExpedientes);

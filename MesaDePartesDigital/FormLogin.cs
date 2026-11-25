@@ -6,7 +6,7 @@ namespace MesaDePartesDigital
 {
     public partial class FormLogin : Form
     {
-        private string rutaUsuarios = "usuarios.txt";
+        private string rutaUsuarios = "usuarios.dat"; 
 
         public FormLogin()
         {
@@ -26,18 +26,19 @@ namespace MesaDePartesDigital
                 accesoConcedido = true;
                 rolUsuario = "Administrador";
             }
-            else if (File.Exists("usuarios.txt"))
+            else if (File.Exists(rutaUsuarios))
             {
-                string[] lineas = File.ReadAllLines("usuarios.txt");
-                foreach (string linea in lineas)
+                
+                BinaryReader br = null;
+                try
                 {
-                    string[] datos = linea.Split('|');
-                    
-                    if (datos.Length == 4)
+                    br = new BinaryReader(new FileStream(rutaUsuarios, FileMode.Open, FileAccess.Read));
+                    while (br.BaseStream.Position != br.BaseStream.Length)
                     {
-                        string usuarioFile = datos[0].Trim();
-                        string claveFile = datos[1].Trim();
-                        string rolFile = datos[2].Trim();
+                        string usuarioFile = br.ReadString();
+                        string claveFile = br.ReadString();
+                        string rolFile = br.ReadString();
+                        string extraFile = br.ReadString(); 
 
                         if (usuarioFile == usuarioIngresado && claveFile == claveIngresada)
                         {
@@ -47,6 +48,14 @@ namespace MesaDePartesDigital
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al leer el archivo: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (br != null) br.Close();
+                }
             }
 
             if (accesoConcedido)
@@ -55,13 +64,11 @@ namespace MesaDePartesDigital
                 FormPrincipal principal = new FormPrincipal(rolUsuario);
                 principal.Show();
                 this.Hide();
-
             }
             else
             {
                 MessageBox.Show("Usuario o contraseña incorrectos.", "Error de Autenticación", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -73,6 +80,7 @@ namespace MesaDePartesDigital
         {
             string usuario = txtUsuario.Text.Trim();
             string clave = txtClave.Text.Trim();
+            string rolPredeterminado = "Usuario"; 
 
             if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(clave))
             {
@@ -80,22 +88,53 @@ namespace MesaDePartesDigital
                 return;
             }
 
+            
             if (File.Exists(rutaUsuarios))
             {
-                string[] lineas = File.ReadAllLines(rutaUsuarios);
-                foreach (string linea in lineas)
+                BinaryReader br = null;
+                try
                 {
-                    string[] datos = linea.Split('|');
-                    if (datos.Length > 0 && datos[0] == usuario)
+                    br = new BinaryReader(new FileStream(rutaUsuarios, FileMode.Open, FileAccess.Read));
+                    while (br.BaseStream.Position != br.BaseStream.Length)
                     {
-                        MessageBox.Show("Ese nombre de usuario ya existe. Elige otro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        string usuarioFile = br.ReadString();
+                        string claveFile = br.ReadString();
+                        string rolFile = br.ReadString();
+                        string extraFile = br.ReadString();
+
+                        if (usuarioFile == usuario)
+                        {
+                            MessageBox.Show("Ese nombre de usuario ya existe. Elige otro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            br.Close();
+                            return;
+                        }
                     }
+                    br.Close();
+                }
+                catch (Exception)
+                {
+                    
                 }
             }
 
-            File.AppendAllText(rutaUsuarios, usuario + "|" + clave + Environment.NewLine);
-            MessageBox.Show("¡Usuario registrado con éxito! Ahora dale clic a Ingresar.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
+            BinaryWriter bw = null;
+            try
+            {
+                bw = new BinaryWriter(new FileStream(rutaUsuarios, FileMode.Append, FileAccess.Write));
+                bw.Write(usuario);
+                bw.Write(clave);
+                bw.Write(rolPredeterminado);
+                bw.Write(""); 
+                bw.Close();
+
+                MessageBox.Show("¡Usuario registrado con éxito! Ahora dale clic a Ingresar.", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (bw != null) bw.Close();
+            }
         }
 
         private void label3_Click(object sender, EventArgs e)
