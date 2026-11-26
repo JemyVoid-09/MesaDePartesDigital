@@ -10,10 +10,12 @@ namespace MesaDePartesDigital
 
         public FormGestionUsuarios()
         {
+            //se dibuja la tabla y los controles
             InitializeComponent();
             CargarUsuarios();
         }
 
+        //lee el archivo binario y dibuja los usuarios en la tabla 
         private void CargarUsuarios()
         {
             dgvUsuarios.Rows.Clear();
@@ -52,6 +54,7 @@ namespace MesaDePartesDigital
             }
         }
 
+        //se registra un nuevo usuario poniendole un nuevo rol de administrador o trabajador
         private void btnRegistrar_Click_1(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtUsuario.Text) ||
@@ -63,6 +66,7 @@ namespace MesaDePartesDigital
                 return;
             }
 
+            //trim() quita espacios de mas al inicio o final para que se guarden limpios
             string usuario = txtUsuario.Text.Trim();
             string contrasena = txtClave.Text.Trim();
             string rol = comboBox1.SelectedItem.ToString();
@@ -70,7 +74,8 @@ namespace MesaDePartesDigital
 
             try
             {
-                
+
+                //aca se libera automaticamente cuando se termina de escribir 
                 using (BinaryWriter bw = new BinaryWriter(new FileStream(rutaUsuarios, FileMode.Append, FileAccess.Write)))
                 {
                     bw.Write(usuario);
@@ -86,6 +91,7 @@ namespace MesaDePartesDigital
                 comboBox1.SelectedIndex = -1;
                 txtCorreo.Clear();
 
+                //aca se recarga de nuevo la tabla para mostrar al nuevo usuario
                 CargarUsuarios();
             }
             catch (Exception ex)
@@ -100,6 +106,7 @@ namespace MesaDePartesDigital
             {
                 string usuarioSeleccionado = dgvUsuarios.CurrentRow.Cells[0].Value.ToString();
 
+                //aca se evita por completo que eliminen al administrador principal o administradores
                 if (usuarioSeleccionado.ToLower() == "admin")
                 {
                     MessageBox.Show("¡Acción denegada! El usuario administrador principal no se puede eliminar.", "Seguridad", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -109,17 +116,21 @@ namespace MesaDePartesDigital
                 DialogResult resultado = MessageBox.Show($"¿Deseas eliminar al usuario '{usuarioSeleccionado}'?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (resultado == DialogResult.Yes)
                 {
+                    //se elimina la fila de la tabla
                     dgvUsuarios.Rows.Remove(dgvUsuarios.CurrentRow);
 
-                    
+                    // se sobreescribe el archivo binario con las filas restantes
                     try
                     {
                         using (BinaryWriter bw = new BinaryWriter(new FileStream(rutaUsuarios, FileMode.Create, FileAccess.Write)))
                         {
                             foreach (DataGridViewRow row in dgvUsuarios.Rows)
                             {
+                                //row.IsNewRow esta parte sirve para ignorar la fila en blanco que da windows forms
+                                //row.Cells[0].Value != null aca verifica que las casillas del usuario este con datos reales y no vacio
                                 if (!row.IsNewRow && row.Cells[0].Value != null)
                                 {
+                                    //los ?? "" ayuda a que si alguna celda estuviera vacia ,evita que el programa falle de golpe
                                     string user = row.Cells[0].Value.ToString();
                                     string pass = row.Cells[1].Value?.ToString() ?? "";
                                     string rol = row.Cells[2].Value?.ToString() ?? "";
