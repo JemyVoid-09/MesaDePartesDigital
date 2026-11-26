@@ -59,8 +59,10 @@ namespace MesaDePartesDigital
                         if (usuarioFile == usuarioIngresado && claveFile == claveIngresada)
                         {
                             accesoConcedido = true;
-                            rolUsuario = rolFile;// aca se guarda si es administrador o trabajador
-                            break; //el break es cuando ya encontramos lo que es el usuario y no hace falta seguir buscando
+                            // aca se guarda si es administrador o trabajador
+                            rolUsuario = rolFile;
+                            //el break es cuando ya encontramos lo que es el usuario y no hace falta seguir buscando
+                            break; 
                         }
                     }
                 }
