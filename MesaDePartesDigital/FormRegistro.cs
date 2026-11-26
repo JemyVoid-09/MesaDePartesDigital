@@ -29,7 +29,7 @@ namespace MesaDePartesDigital
                 return;
             }
 
-            //validacion del DNI, aca se mide cuantos cifras tiene el texto del DNI con .length
+            //aca se mide cuantos cifras tiene el texto del DNI con .length
             //si o si tiene que tener 8 digitos
             if (txtDNI.Text.Length != 8)
             {
