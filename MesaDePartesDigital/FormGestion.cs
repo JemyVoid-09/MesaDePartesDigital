@@ -14,14 +14,14 @@ namespace MesaDePartesDigital
             InitializeComponent();
         }
 
-        //parte que se ejecuta cuando se habre la ventana
+        //parte que se ejecuta cuando se abre la ventana
         private void FormGestion_Load(object sender, EventArgs e)
         {
             ConfigurarColumnas();
             CargarTabla();
         }
 
-        //se crea la columnas dentro de la tabla
+        //se crea las columnas dentro de la tabla
         private void ConfigurarColumnas()
         {
             if (dgvExpedientes.Columns.Count == 0)
@@ -73,7 +73,7 @@ namespace MesaDePartesDigital
             }
         }
 
-        //revisa el archivo binario uno por uno buscando si hay alguna algo que sea doble
+        //revisa el archivo binario uno por uno buscando si hay algun dato que sea doble (dni o código)
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string busqueda = txtBuscarDNI.Text.Trim();
@@ -103,7 +103,7 @@ namespace MesaDePartesDigital
                         string asunto = br.ReadString();
                         string fecha = br.ReadString();
 
-                        //compara si el codigo o el DNI coincide con lo que el usuario busco y se conincide, lo muestra
+                        //compara si el codigo o el DNI coincide con lo que el usuario busco, y si conincide, lo muestra
                         if (dni == busqueda || codigo == busqueda)
                         {
                             dgvExpedientes.Rows.Add(codigo, dni, nombres, tipoDoc, asunto, fecha);
@@ -112,7 +112,7 @@ namespace MesaDePartesDigital
                     }
                     br.Close();
 
-                    //si leyo y no encontro nada, avisa al usuario y le recarga la tabla completa
+                    //si leyó y no encontro nada, avisa al usuario y le recarga la tabla completa
                     if (!encontrado)
                     {
                         MessageBox.Show("No se encontró ningún expediente con el dato ingresado.", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -150,7 +150,7 @@ namespace MesaDePartesDigital
                         string codigo1 = dgvExpedientes.Rows[j].Cells[0].Value?.ToString() ?? "";
                         string codigo2 = dgvExpedientes.Rows[j + 1].Cells[0].Value?.ToString() ?? "";
 
-                        //aca se compara alfabeticamente si es mayor a 0 es codigo1 va despues de codigo2 
+                        //aca se compara alfabetica y numéricamente entre codigo1 y codigo2, el mayor va después
                         if (string.Compare(codigo1, codigo2) > 0)
                         {
 
