@@ -5,7 +5,7 @@ namespace MesaDePartesDigital
 {
     public partial class FormPrincipal : Form
     {
-        // se crea una variable (string) que actua como memoriaque guarda
+        // se crea una variable (string) que actua como memoria que guarda
         //temporalmente el rol del usuario que inicio sesion
         private string rolActual;  
         
